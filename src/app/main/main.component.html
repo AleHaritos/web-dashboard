@@ -1,0 +1,58 @@
+<mat-toolbar color="primary" class="toolbar">
+    <h2 class="title">Calculadora de investimentos</h2>
+    <h3 class="subtitle">Crie seus dashboard de forma fácil</h3>
+</mat-toolbar>
+
+<div class="container" *ngIf="!show">
+
+    <mat-card class="card">
+        <form [formGroup]="forms" class="forms">
+
+        <mat-form-field class="field1">
+            <mat-label>Investimento inicial</mat-label>
+            <input type="text" formControlName="valorInicial" matInput>
+            <mat-hint align="end">Ex: 100.00</mat-hint>
+            <mat-error *ngIf="forms.get('valorInicial')?.hasError('required')">Este campo é obrigatório</mat-error>
+            <mat-error *ngIf="forms.get('valorInicial')?.hasError('pattern')">Este campo está inválido (Ex: 20.00)</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field class="field2">
+            <mat-label>Projeção mensal otimista</mat-label>
+            <input type="text" formControlName="otimista" matInput>
+            <mat-hint align="end">Ex: 30%</mat-hint>
+            <mat-error *ngIf="forms.get('otimista')?.hasError('required')">Este campo é obrigatório</mat-error>
+            <mat-error *ngIf="forms.get('otimista')?.hasError('pattern')">Este campo está inválido (Ex: 30% ou 30.00%)</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field2">
+            <mat-label>Projeção mensal pessimista</mat-label>
+            <input type="text" formControlName="pessimista" matInput>
+            <mat-hint align="end">Ex: 30%</mat-hint>
+            <mat-error *ngIf="forms.get('pessimista')?.hasError('required')">Este campo é obrigatório</mat-error>
+            <mat-error *ngIf="forms.get('pessimista')?.hasError('pattern')">Este campo está inválido (Ex: 30% ou 30.00%)</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field3">
+            <mat-label>Tipo de gráfico</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let type of types" [value]="type.value">
+                {{ type.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Este campo é obrigatório</mat-error>
+          </mat-form-field>
+
+        <button mat-stroked-button color="primary" class="btn" (click)="calculo()">Calcular</button>
+    </form>
+    </mat-card>
+
+</div>
+
+<div style="height: 700px;" [ngClass]="visible">
+    <canvas #canvas id="myChart"></canvas>
+</div>
+
+<div class="btndiv" *ngIf="show">
+    <button mat-raised-button (click)="voltar()">Voltar</button>
+</div>
